@@ -1,0 +1,71 @@
+type User {
+  id: String
+  externalPlatformInfo: ExternalPlatform
+  friends: [String]
+  userGroups: [String]
+}
+
+type ExternalPlatform {
+  naver: UserInfo
+  kakao: UserInfo
+  google: UserInfo
+  apple: UserInfo
+}
+
+type UserInfo {
+  emailAddress: String
+  sex: String
+}
+
+input ExternalPlatformInput {
+  naver: UserInfoInput
+  kakao: UserInfoInput
+  google: UserInfoInput
+  apple: UserInfoInput
+}
+
+input UserInfoInput {
+  emailAddress: String!
+  sex: String
+}
+
+input CreateUserInput {
+  id: String!
+  externalPlatformInfo: ExternalPlatformInput!
+  friends: [String]
+  userGroups: [String]
+}
+
+input UpdateUserInput {
+  id: String!
+}
+
+input UpdateUserExternalPlatformInfoInput {
+  id: String!
+  externalPlatformInfo: ExternalPlatformInput!
+}
+
+input UpdateUserFrientdsInput {
+  id: String!
+  friends: [String]!
+}
+
+input UpdateUserGroupsInput {
+  id: String!
+  userGroups: [String]!
+}
+
+type Query {
+  users: [User]!
+  user(id: String!): User
+  userByEmail(emailAddress: String!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserExternalPlatformInfoInput(UpdateUserExternalPlatformInfoInput: UpdateUserExternalPlatformInfoInput!): User!
+  updateUserFrientdsInput(UpdateUserFrientdsInput: UpdateUserFrientdsInput!): User!
+  updateUserGroupsInput(UpdateUserGroupsInput: UpdateUserGroupsInput!): User!
+  removeUser(id: Int!): User
+}
