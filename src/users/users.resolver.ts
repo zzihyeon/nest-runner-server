@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Parent, ResolveField } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { UpdateUserInput, UpdateUserExternalPlatformInfoInput } from './dto/update-user.input';
 
 @Resolver('user')
 export class UsersResolver {
@@ -27,9 +27,19 @@ export class UsersResolver {
     return this.usersService.findOne(id);
   }
 
+  @Query('userByEmail')
+  findOneByEmail(@Args('emailAddress') emailAddress: string) {
+    return this.usersService.findOneByEmail(emailAddress);
+  }
+
   @Mutation('updateUser')
   update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.usersService.update(updateUserInput.id, updateUserInput);
+  }
+  
+  @Mutation('updateUserExternalPlatformInfo')
+  updateUserExternalPlatformInfo(@Args('updateUserExternalPlatformInfoInput') updateUserExternalPlatformInfoInput: UpdateUserExternalPlatformInfoInput) {
+    return this.usersService.updateExternalPlatformInfo(updateUserExternalPlatformInfoInput.id, updateUserExternalPlatformInfoInput.externalPlatformInfo);
   }
 
   @Mutation('removeUser')

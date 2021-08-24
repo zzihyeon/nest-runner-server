@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput, UpdateUserExternalPlatformInfoInput } from './dto/update-user.input';
-import { User } from './entities/user.entity';
+import { UpdateUserInput } from './dto/update-user.input';
+import { User, ExternalPlatform } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -27,10 +27,10 @@ export class UsersService {
   findOneByEmail(emailAddress: string): User {
     return this.users.find(
       User=>
-      User.externalPlatformInfo.apple.emailAddress === emailAddress ||
-      User.externalPlatformInfo.google.emailAddress === emailAddress ||
-      User.externalPlatformInfo.naver.emailAddress === emailAddress ||
-      User.externalPlatformInfo.kakao.emailAddress === emailAddress
+      (User.externalPlatformInfo.apple && User.externalPlatformInfo.apple.emailAddress === emailAddress) ||
+      (User.externalPlatformInfo.google && User.externalPlatformInfo.google.emailAddress === emailAddress) ||
+      (User.externalPlatformInfo.naver && User.externalPlatformInfo.naver.emailAddress === emailAddress) ||
+      (User.externalPlatformInfo.kakao && User.externalPlatformInfo.kakao.emailAddress === emailAddress)
     );
   }
 
@@ -38,9 +38,12 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  updateExternalPlatformInfo(id: string, updateUserExternalPlatformInput: UpdateUserExternalPlatformInfoInput): User {
-    const idx = this.users.findIndex(user=>user.id === updateUserExternalPlatformInput.id)
-    this.users[idx].externalPlatformInfo = updateUserExternalPlatformInput.externalPlatformInfo;
+  updateExternalPlatformInfo(id: string, externalPlatformInfo: ExternalPlatform): User {
+    const idx = this.users.findIndex(user=>user.id === id)
+    if (idx < 0){
+      return null;
+    }
+    this.users[idx].externalPlatformInfo = externalPlatformInfo;
     return this.users[idx];
   }
 
