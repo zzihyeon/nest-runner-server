@@ -15,4 +15,5 @@ export class User {
   
   export class UserInfo {
     emailAddress: string;
+    sex: string;
   }
