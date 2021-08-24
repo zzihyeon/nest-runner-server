@@ -34,10 +34,6 @@ export class UsersService {
     );
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
   updateExternalPlatformInfo(id: string, externalPlatformInfo: ExternalPlatform): User {
     const idx = this.users.findIndex(user=>user.id === id)
     if (idx < 0){

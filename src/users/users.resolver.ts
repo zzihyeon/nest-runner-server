@@ -18,7 +18,7 @@ export class UsersResolver {
   }
 
   @Query('users')
-  FindAll() {
+  findAll() {
     return this.usersService.findAll();
   }
 
@@ -30,11 +30,6 @@ export class UsersResolver {
   @Query('userByEmail')
   findOneByEmail(@Args('emailAddress') emailAddress: string) {
     return this.usersService.findOneByEmail(emailAddress);
-  }
-
-  @Mutation('updateUser')
-  update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
   }
   
   @Mutation('updateUserExternalPlatformInfo')

@@ -19,7 +19,7 @@ describe('UsersResolver', () => {
   });
 
   it('find All test', () => {
-    const users = resolver.FindAll();
+    const users = resolver.findAll();
     expect(users.length).toBe(0);
   });
 
@@ -69,7 +69,7 @@ describe('UsersResolver', () => {
     expect(prevUser.id).toBe("test");
     expect(prevUser.externalPlatformInfo.naver.emailAddress).toBe("test@naver.com");
     expect(prevUser.externalPlatformInfo.naver.sex).toBe("male");
-    const users = resolver.FindAll();
+    const users = resolver.findAll();
     expect(users.length).toBe(1);
   });
 

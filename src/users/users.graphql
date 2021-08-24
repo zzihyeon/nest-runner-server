@@ -63,7 +63,6 @@ type Query {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User
-  updateUser(updateUserInput: UpdateUserInput!): User
   updateUserExternalPlatformInfo(updateUserExternalPlatformInfoInput: UpdateUserExternalPlatformInfoInput!): User
   updateUserFrientds(updateUserFrientdsInput: UpdateUserFrientdsInput!): User
   updateUserGroups(updateUserGroupsInput: UpdateUserGroupsInput!): User
