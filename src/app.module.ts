@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { GraphQLModule } from '@nestjs/graphql';
+import { RunningHistoryModule } from './running-history/running-history.module';
 
 @Module({
   imports: [
@@ -10,7 +11,8 @@ import { GraphQLModule } from '@nestjs/graphql';
       typePaths:['*/**/*.graphql'],
       debug: false,
     }),
-    UsersModule
+    UsersModule,
+    RunningHistoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

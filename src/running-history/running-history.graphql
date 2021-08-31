@@ -1,0 +1,24 @@
+type RunningHistory {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateRunningHistoryInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateRunningHistoryInput {
+  id: Int!
+}
+
+type Query {
+  runningHistory: [RunningHistory]!
+  runningHistory(id: Int!): RunningHistory
+}
+
+type Mutation {
+  createRunningHistory(createRunningHistoryInput: CreateRunningHistoryInput!): RunningHistory!
+  updateRunningHistory(updateRunningHistoryInput: UpdateRunningHistoryInput!): RunningHistory!
+  removeRunningHistory(id: Int!): RunningHistory
+}
