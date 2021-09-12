@@ -12,6 +12,28 @@ class PathList {
 export class RunningHistoryService {
   private readonly runningHistory: RunningHistory[] = [];
   private readonly pathHistory: PathList[] = [];
+
+  private getDistance(lat1, lon1, lat2, lon2): number {
+    if ((lat1 == lat2) && (lon1 == lon2))
+        return 0;
+
+    var radLat1 = Math.PI * lat1 / 180;
+    var radLat2 = Math.PI * lat2 / 180;
+    var theta = lon1 - lon2;
+    var radTheta = Math.PI * theta / 180;
+    var dist = Math.sin(radLat1) * Math.sin(radLat2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
+    if (dist > 1)
+        dist = 1;
+
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515 * 1.609344 * 1000;
+    if (dist < 100) dist = Math.round(dist / 10) * 10;
+    else dist = Math.round(dist / 100) * 100;
+
+    return dist;
+}
+
   create(createRunningHistoryInput: CreateRunningHistoryInput):RunningHistory {
     const id: string = createRunningHistoryInput.startTime.toDateString();
     this.pathHistory.push({runningHistoryID: id, path: createRunningHistoryInput.runningPath})
@@ -27,8 +49,8 @@ export class RunningHistoryService {
     const timeSnapshot = new Date();
     this.pathHistory.push({runningHistoryID: id, path: updateRunningHistoryInput.runningPath})
     const lastPath: PathList = this.pathHistory.find(user=>user.runningHistoryID === id);
-    const distance = Math.sqrt(Math.pow(lastPath.path.latitude - updateRunningHistoryInput.runningPath.latitude, 2) + Math.pow(lastPath.path.longitude - updateRunningHistoryInput.runningPath.longitude, 2));
-    //TODO: 위도 경도 거리 계산법 해야 함.
+    const distance = this.getDistance(lastPath.path.latitude, lastPath.path.longitude,updateRunningHistoryInput.runningPath.latitude ,updateRunningHistoryInput.runningPath.longitude);
+    console.log(distance)
     const duration = timeSnapshot.getTime() - lastPath.path.timeSnapshot.getTime();
     const idx = this.runningHistory.findIndex(runningHistory=>runningHistory.id === id);
     this.runningHistory[idx].totalDistance += distance;

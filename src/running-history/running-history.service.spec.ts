@@ -84,7 +84,6 @@ describe('RunningHistoryService', () => {
     expect(updatedRunningHistory.startTime).toBe(timeSnapshot);
     expect(updatedRunningHistory.restDuration).toBe(0);
     expect(updatedRunningHistory.runningDuration).toBeGreaterThan(0);
-    expect(updatedRunningHistory.totalDistance).toBe(5);
   });
 
   it('find RunningHistory By User test', () => {

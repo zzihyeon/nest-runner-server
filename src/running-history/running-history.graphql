@@ -13,7 +13,7 @@ input UpdateRunningHistoryInput {
 }
 
 type Query {
-  runningHistory: [RunningHistory]!
+  runningHistorys: [RunningHistory]!
   runningHistory(id: Int!): RunningHistory
 }
 
