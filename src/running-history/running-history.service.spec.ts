@@ -21,24 +21,21 @@ describe('RunningHistoryService', () => {
 
   it('create RunningHistory test', () => {
     const timeSnapshot = new Date();
-    const id = timeSnapshot.toDateString();
     const createInput: CreateRunningHistoryInput = {
-      id: id,
       userID: "jh",
-      startTime:timeSnapshot,
+      startTime: timeSnapshot,
       restDuration: 0,
       runningDuration: 0,
       totalDistance: 0,
       runningPath: {
-        latitude:0,
-        longitude:0,
+        latitude: 0,
+        longitude: 0,
         timeSnapshot: timeSnapshot,
       }
     }
     const runningHistory = service.create(createInput);
     expect(runningHistory.userID).toBe("jh");
-    expect(runningHistory.id).toBe(timeSnapshot.toDateString());
-    expect(runningHistory.startTime).toBe(timeSnapshot);
+    expect(runningHistory.id).toBe(runningHistory.startTime.getTime().toString() + "jh");
     expect(runningHistory.restDuration).toBe(0);
     expect(runningHistory.runningDuration).toBe(0);
     expect(runningHistory.totalDistance).toBe(0);
@@ -46,76 +43,66 @@ describe('RunningHistoryService', () => {
 
   it('update RunningHistory test', () => {
     let timeSnapshot = new Date();
-    const id = timeSnapshot.toDateString();
     const createInput: CreateRunningHistoryInput = {
-      id: id,
       userID: "jh",
-      startTime:timeSnapshot,
+      startTime: timeSnapshot,
       restDuration: 0,
       runningDuration: 0,
       totalDistance: 0,
       runningPath: {
-        latitude:0,
-        longitude:0,
+        latitude: 0,
+        longitude: 0,
         timeSnapshot: timeSnapshot,
       }
     }
     const runningHistory = service.create(createInput);
-    
+
     expect(runningHistory.userID).toBe("jh");
-    expect(runningHistory.id).toBe(id);
-    expect(runningHistory.startTime).toBe(timeSnapshot);
     expect(runningHistory.restDuration).toBe(0);
     expect(runningHistory.runningDuration).toBe(0);
     expect(runningHistory.totalDistance).toBe(0);
     timeSnapshot.setSeconds(timeSnapshot.getSeconds() - 1);
     const updateInput: UpdateRunningHistoryInput = {
-      id: id,
+      id: runningHistory.id,
       userID: "jh",
       runningPath: {
-        latitude:3,
-        longitude:4,
+        latitude: 3,
+        longitude: 4,
         timeSnapshot: timeSnapshot,
       }
     }
-    const updatedRunningHistory = service.update(id, updateInput);
+    const updatedRunningHistory = service.update( runningHistory.id, updateInput);
     expect(updatedRunningHistory.userID).toBe("jh");
-    expect(updatedRunningHistory.id).toBe(timeSnapshot.toDateString());
-    expect(updatedRunningHistory.startTime).toBe(timeSnapshot);
+    expect(updatedRunningHistory.id).toBe(updatedRunningHistory.startTime.getTime().toString() + "jh");
     expect(updatedRunningHistory.restDuration).toBe(0);
     expect(updatedRunningHistory.runningDuration).toBeGreaterThan(0);
   });
 
   it('find RunningHistory By User test', () => {
     let timeSnapshot = new Date();
-    const id = timeSnapshot.toDateString();
     const createInput: CreateRunningHistoryInput = {
-      id: id,
       userID: "jh",
-      startTime:timeSnapshot,
+      startTime: timeSnapshot,
       restDuration: 0,
       runningDuration: 0,
       totalDistance: 0,
       runningPath: {
-        latitude:0,
-        longitude:0,
+        latitude: 0,
+        longitude: 0,
         timeSnapshot: timeSnapshot,
       }
     }
     const runningHistory = service.create(createInput);
-    
+
     expect(runningHistory.userID).toBe("jh");
-    expect(runningHistory.id).toBe(id);
-    expect(runningHistory.startTime).toBe(timeSnapshot);
     expect(runningHistory.restDuration).toBe(0);
     expect(runningHistory.runningDuration).toBe(0);
     expect(runningHistory.totalDistance).toBe(0);
     timeSnapshot.setSeconds(timeSnapshot.getSeconds() - 1);
-    
+
     const updatedRunningHistory = service.findByUserID("jh");
     expect(updatedRunningHistory[0].userID).toBe("jh");
-    expect(updatedRunningHistory[0].id).toBe(timeSnapshot.toDateString());
-    expect(updatedRunningHistory[0].startTime).toBe(timeSnapshot);
+    expect(updatedRunningHistory[0].id).toBe(runningHistory.startTime.getTime().toString() + "jh");
     expect(updatedRunningHistory[0].restDuration).toBe(0);
     expect(updatedRunningHistory[0].runningDuration).toBe(0);
     expect(updatedRunningHistory[0].totalDistance).toBe(0);
