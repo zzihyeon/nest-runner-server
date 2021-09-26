@@ -1,24 +1,39 @@
+scalar Date
 type RunningHistory {
-  # Example field (placeholder)
-  exampleField: Int
+  id: String
+  userID: String
+  startTime: Date
+  restDuration: Float
+  runningDuration: Float
+  totalDistance: Float
 }
 
 input CreateRunningHistoryInput {
-  # Example field (placeholder)
-  exampleField: Int
+  userID: String!
+  restDuration: Float!
+  runningDuration: Float!
+  totalDistance: Float!
+  runningPath: RunningPath!
 }
 
 input UpdateRunningHistoryInput {
-  id: Int!
+  id: String!
+  userID: String!
+  runningPath: RunningPath!
+}
+
+input RunningPath {
+  latitude: Float!
+  longitude: Float!
 }
 
 type Query {
-  runningHistorys: [RunningHistory]!
-  runningHistory(id: Int!): RunningHistory
+  runningHistorys: [RunningHistory]
+  runningHistory(id: String!): [RunningHistory]
 }
 
 type Mutation {
   createRunningHistory(createRunningHistoryInput: CreateRunningHistoryInput!): RunningHistory!
   updateRunningHistory(updateRunningHistoryInput: UpdateRunningHistoryInput!): RunningHistory!
-  removeRunningHistory(id: Int!): RunningHistory
+  removeRunningHistory(id: String!): RunningHistory
 }

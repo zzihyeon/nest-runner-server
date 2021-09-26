@@ -12,10 +12,10 @@ export class RunningHistoryResolver {
     return this.runningHistoryService.create(createRunningHistoryInput);
   }
 
-  // @Query('runningHistory')
-  // findAll() {
-  //   return this.runningHistoryService.findAll();
-  // }
+  @Query('runningHistorys')
+  findAll() {
+    return this.runningHistoryService.findAll();
+  }
 
   @Query('runningHistory')
   findOne(@Args('id') id: string) {

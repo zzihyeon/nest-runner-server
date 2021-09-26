@@ -32,13 +32,18 @@ export class RunningHistoryService {
     else dist = Math.round(dist / 100) * 100;
 
     return dist;
-}
+  }
 
   create(createRunningHistoryInput: CreateRunningHistoryInput):RunningHistory {
-    const id: string = createRunningHistoryInput.startTime.toDateString();
-    this.pathHistory.push({runningHistoryID: id, path: createRunningHistoryInput.runningPath})
-    this.runningHistory.push({...createRunningHistoryInput, id: id});
-    return {...createRunningHistoryInput, id: id};
+    const startTime = new Date();
+    const id: string = startTime.getTime().toString() + createRunningHistoryInput.userID;
+    this.pathHistory.push({runningHistoryID: id, path: {...createRunningHistoryInput.runningPath, timeSnapshot: new Date()}})
+    this.runningHistory.push({...createRunningHistoryInput, id: id, startTime: startTime});
+    return {...createRunningHistoryInput, id: id, startTime: startTime};
+  }
+
+  findAll(): RunningHistory[] {
+    return this.runningHistory;
   }
 
   findByUserID(userID: string): RunningHistory[] {
@@ -50,7 +55,6 @@ export class RunningHistoryService {
     this.pathHistory.push({runningHistoryID: id, path: updateRunningHistoryInput.runningPath})
     const lastPath: PathList = this.pathHistory.find(user=>user.runningHistoryID === id);
     const distance = this.getDistance(lastPath.path.latitude, lastPath.path.longitude,updateRunningHistoryInput.runningPath.latitude ,updateRunningHistoryInput.runningPath.longitude);
-    console.log(distance)
     const duration = timeSnapshot.getTime() - lastPath.path.timeSnapshot.getTime();
     const idx = this.runningHistory.findIndex(runningHistory=>runningHistory.id === id);
     this.runningHistory[idx].totalDistance += distance;
